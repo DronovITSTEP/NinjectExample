@@ -15,7 +15,25 @@ samurai.Attack("злодея");*/
 var samurai = kernel.Get<Samurai>();
 samurai.Attack("злодея");*/
 
-IKernel kernel = new StandardKernel(new TestModule());
+/*IKernel kernel = new StandardKernel(new TestModule());
 IEnumerable<IWeapon> weapons = kernel.GetAll<IWeapon>();
 foreach (var weapon in weapons)
-    Console.WriteLine(weapon.Hit("злодея"));
+    Console.WriteLine(weapon.Hit("злодея"));*/
+
+/*IKernel kernel = new StandardKernel(new WarriorModule());
+Samurai warrior = kernel.Get<Samurai>();
+warrior.Attack("злодея");*/
+
+bool useMeleeWeapons = false;
+IKernel kernel = new StandardKernel(new WeaponModule(useMeleeWeapons));
+Samurai warrior = kernel.Get<Samurai>();
+warrior.Attack("злодея");
+
+kernel.Load("*.dll");
+kernel.Load(AppDomain.CurrentDomain.GetAssemblies());
+
+
+kernel.Bind<IWeapon>().To<Shuriken>().Named("Strong");
+kernel.Bind<IWeapon>().To<Sword>().Named("Weak");
+
+kernel.Get<IWeapon>("Weak");
